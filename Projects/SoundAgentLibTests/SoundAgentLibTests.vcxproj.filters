@@ -37,5 +37,8 @@
     <ClCompile Include="LoggerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StringUtilsTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
