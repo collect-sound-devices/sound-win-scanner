@@ -10,7 +10,6 @@
 
 using namespace std::literals;
 using namespace std::chrono;
-using namespace std::literals::string_literals;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 

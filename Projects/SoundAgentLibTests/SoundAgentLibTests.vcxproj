@@ -72,6 +72,7 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StringUtilsTests.cpp" />
     <ClCompile Include="TimeTests.cpp" />
   </ItemGroup>
   <ItemGroup>
