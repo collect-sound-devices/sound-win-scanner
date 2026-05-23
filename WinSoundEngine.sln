@@ -10,11 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		202509011440SoundDefaultUI.jpg = 202509011440SoundDefaultUI.jpg
 		.github\workflows\build.yml = .github\workflows\build.yml
-		LICENSE = LICENSE
 		scripts\buildGo.ps1 = scripts\buildGo.ps1
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
 		README.md = README.md
-		WinSoundEngine-Release-Notes.md = WinSoundEngine-Release-Notes.md
 		vcpkg.json = vcpkg.json
+		WinSoundEngine-Release-Notes.md = WinSoundEngine-Release-Notes.md
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundAgentCli", "Projects\SoundAgentCli\SoundAgentCli.vcxproj", "{844C9DC2-66C1-4778-97FC-AF3AE88B679B}"
