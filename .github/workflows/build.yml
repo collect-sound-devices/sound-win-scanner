@@ -94,7 +94,7 @@ jobs:
     
           # Install manifest dependencies from the workspace root
           Write-Host "Installing vcpkg manifest dependencies..."
-          & "$vcpkgDir\vcpkg.exe" install --triplet x64-windows-static
+          & "$vcpkgDir\vcpkg.exe" install --triplet x64-windows-static --x-install-root="$PWD\vcpkg_installed"
     
           # Set environment variables for the build step
           "VCPKG_ROOT=$vcpkgDir" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
