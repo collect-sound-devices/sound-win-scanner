@@ -86,12 +86,17 @@ jobs:
         run: |
           $vcpkgDir = 'C:\vcpkg'
           if (-not (Test-Path (Join-Path $vcpkgDir 'vcpkg.exe'))) {
+            Write-Host "Cloning vcpkg..."
             git clone --depth 1 https://github.com/microsoft/vcpkg.git $vcpkgDir
+            Write-Host "Bootstrapping vcpkg..."
             & "$vcpkgDir\bootstrap-vcpkg.bat" -disableMetrics
           }
-          # Install manifest dependencies explicitly with a triplet so MSBuild doesn't need to do it
-          & "$vcpkgDir\vcpkg.exe" install --manifest-root="$PWD" --x-install-root="$PWD\vcpkg_installed" --triplet x64-windows-static
-          # expose the install dir for the build step
+    
+          # Install manifest dependencies from the workspace root
+          Write-Host "Installing vcpkg manifest dependencies..."
+          & "$vcpkgDir\vcpkg.exe" install --triplet x64-windows-static
+    
+          # Set environment variables for the build step
           "VCPKG_ROOT=$vcpkgDir" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
           "VCPKG_DEFAULT_TRIPLET=x64-windows-static" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
