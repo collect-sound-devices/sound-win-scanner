@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project>
+  <PropertyGroup>
+    <!-- Make triplet available to all MSBuild evaluations and nested imports -->
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+    <!-- Optional: disable auto bootstrap if you prefer explicit CI bootstrap -->
+    <VcpkgAutoBootstrap>false</VcpkgAutoBootstrap>
+  </PropertyGroup>
+</Project>

@@ -81,11 +81,6 @@ jobs:
       - name: Integrate vcpkg with MSBuild
         run: vcpkg integrate install
 
-      - name: Set vcpkg default triplet
-        shell: powershell
-        run: |
-          Write-Host "VCPKG_DEFAULT_TRIPLET=x64-windows-static" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Build with MSBuild
         run: |
           msbuild /p:Configuration=Release /p:VcpkgEnabled=true /p:VcpkgManifestPath=vcpkg.json /p:VcpkgTriplet=x64-windows-static /target:Rebuild -restore /p:RestorePackagesConfig=true
