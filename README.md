@@ -34,37 +34,42 @@ subgraph scannerBackend["<b>win-sound-engine (C++ / Go module)</b>"]
 end
 class scannerBackend stressedBox
 
-coreAudioApi -->|Device and volume change<br>notifications| soundAgentApiDll
-soundAgentApiDll --> |Read device characteristics| coreAudioApi
+coreAudioApi --->|Device and volume change<br>notifications| soundAgentApiDll
+soundAgentApiDll ---> |Read device characteristics| coreAudioApi
 
-subgraph scannerService["win-sound-scanner-go"]
-    invisible1["<br><br><br><br><br>"]
-    class invisible1 invisibleNode
-    winSoundScannerService["<b>WinSoundScanner</b><br>(Go Windows Service)"]
-    invisible2["<br><br><br><br><br>"]
-    class invisible2 invisibleNode
+winSoundScannerService["<b>WinSoundScanner</b><br>(Go Windows Service)"]
+
+subgraph eventTopicKafkaMicroservice["<br>"]
+    eventTopic[("Event Topic<br>(Kafka topic)")]
+    class eventTopic dottedBox
+    kafkaRestForwarder["KafkaToRestApiForwarder<br>(.NET microservice)"]
+    class kafkaRestForwarder dottedBox
 end
-class scannerService dottedBox
-
-subgraph requestQueueMicroservice["<br>"]
+class eventTopicKafkaMicroservice dottedBox
+    
+subgraph requestQueueRabbitMqMicroservice["<br>"]
     requestQueue[("Request Queue<br>(RabbitMQ channel)")]
     rabbitMqRestForwarder["RmqToRestApiForwarder<br>(.NET microservice)"]
 end
-class requestQueueMicroservice dottedBox
+class requestQueueRabbitMqMicroservice dottedBox
 
 deviceRepositoryApi["Device Repository Server<br>(REST API)"]
 
-winSoundScannerService --> |Access device| goCgoWrapper
-goCgoWrapper -->|Device events| winSoundScannerService
+winSoundScannerService ---> |Access device| goCgoWrapper
+goCgoWrapper --->|Device events| winSoundScannerService
 
 goCgoWrapper --> |C API calls| soundAgentApiDll
 soundAgentApiDll -->|C / C++ callbacks| goCgoWrapper
 
-winSoundScannerService -->|Publish request messages| requestQueue
+winSoundScannerService -..-> |Publish device events| eventTopic
+winSoundScannerService --->|Publish request messages| requestQueue
 
-requestQueue -->|Fetch request messages| rabbitMqRestForwarder
-rabbitMqRestForwarder --> |Detect request messages| requestQueue
-rabbitMqRestForwarder -->|POST/PUT requests| deviceRepositoryApi
+eventTopic -->|Fetch events| kafkaRestForwarder
+kafkaRestForwarder --> |Detect events| eventTopic
+kafkaRestForwarder -..->|POST/PUT requests| deviceRepositoryApi
+requestQueue -->|Fetch messages| rabbitMqRestForwarder
+rabbitMqRestForwarder --> |Detect messages| requestQueue
+rabbitMqRestForwarder --->|POST/PUT requests| deviceRepositoryApi
 ```
 </div>
 
